@@ -458,7 +458,7 @@ function toggleFieldHelp(id){
   if(el.hasAttribute('hidden')) el.removeAttribute('hidden'); else el.setAttribute('hidden','');
 }
 function dbhModeHintText(mode){
-  return mode==='idbh' ? `5.0" tree DBH entered as 5.0 (RealDBH)` : `IntegerDBH: 5.0" tree DBH entered as 50 (IBDH)`;
+  return mode==='idbh' ? `enter 5.0" tree DBH as 5.0 (RealDBH)` : `IntegerDBH: enter 5.0" tree DBH as 50 (IBDH)`;
 }
 function formatDbhBreakValue(value, fallback="5.0"){
   const raw=String(value??"").trim();
