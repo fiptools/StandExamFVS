@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'plotter-fvs-pwa-v1.8.5';
+const CACHE_VERSION = 'plotter-fvs-pwa-v1.8.6';
 const APP_SHELL = [
   './',
   './index.html',
