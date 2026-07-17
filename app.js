@@ -326,7 +326,7 @@ function modalPrompt(title, cb){
   ov.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:200;";
   ov.innerHTML=`<div style="background:#fff;border-radius:12px;padding:18px;width:320px;max-width:90%;box-shadow:0 8px 30px rgba(0,0,0,.2);">
     <div style="font-size:14px;font-weight:600;margin-bottom:10px;color:#1f2b1f;">${title}</div>
-    <input id="mdl_in" style="width:100%;padding:9px;border:1px solid #d9e2d9;border-radius:8px;font-size:15px;">
+    <input id="mdl_in" inputmode="numeric" autocapitalize="off" autocomplete="off" style="width:100%;padding:9px;border:1px solid #d9e2d9;border-radius:8px;font-size:15px;">
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px;">
       <button id="mdl_cancel" style="background:#e8ede8;color:#234f2c;border:none;border-radius:8px;padding:9px 14px;font-weight:600;cursor:pointer;">Cancel</button>
       <button id="mdl_ok" style="background:#2f6b3c;color:#fff;border:none;border-radius:8px;padding:9px 14px;font-weight:600;cursor:pointer;">OK</button>
