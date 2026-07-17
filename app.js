@@ -2385,7 +2385,7 @@ function onDamageChange(idx){
   const field=document.getElementById('t_sev'+idx+'_field');
   const html=dmg?severityFieldHTML(idx, dmg.value, ''):'';
   if(cell) cell.innerHTML=html;
-  if(field) field.hidden=!html; // SEV shows only for damage codes 25-34
+  if(field) field.style.display=html?'':'none'; // SEV shows only for damage codes 25-34
   if(idx===1) setSecondaryDamageVisibility(!!(dmg&&dmg.value));
 }
 function setSecondaryDamageVisibility(show){
@@ -2607,7 +2607,7 @@ if(activePlot){
           <div class="field" style="flex:0 0 60px;"><label>Count</label><input id="t_count" type="number" min="1" step="1" value="${et?escapeAttr(et.count||'1'):'1'}"></div>
           <div class="field" style="flex:0 0 64px;"><label>Age</label><input id="t_age" type="number" min="1" step="1" placeholder="opt" value="${et&&et.age?escapeAttr(et.age):''}"></div>
           <div class="field" style="flex:0 0 132px;"><label>Dmg 1</label><select id="t_dmg1" onchange="onDamageChange(1)">${damageOptions(activeStand.variant,dmg1Init)}</select></div>
-          <div class="field" id="t_sev1_field" style="flex:0 0 62px;" ${sev1Html?'':'hidden'}><label>Sev 1</label><span id="t_sevcell1" style="display:block;">${sev1Html}</span></div>
+          <div class="field" id="t_sev1_field" style="flex:0 0 62px;${sev1Html?'':'display:none;'}"><label>Sev 1</label><span id="t_sevcell1" style="display:block;">${sev1Html}</span></div>
           <div class="field secondary-damage-field" id="t_dmg2_field" style="flex:0 0 132px;" ${showSecondary?'':'hidden'}><label>Dmg 2</label><select id="t_dmg2" onchange="onDamageChange(2)">${damageOptions(activeStand.variant,dmg2Init)}</select></div>
           <div class="field secondary-damage-field" id="t_sev2_field" style="flex:0 0 62px;" ${(showSecondary && sev2Html)?'':'hidden'}><label>Sev 2</label><span id="t_sevcell2" style="display:block;">${showSecondary?sev2Html:''}</span></div>
           <div class="field" style="flex:0 0 auto;"><label>&nbsp;</label><button id="t_add_button" data-stand-ready="${standReady?'true':'false'}" onclick="addTree()" ${standReady?'aria-disabled="false"':'disabled aria-disabled="true" title="Save Stand Info first"'}>${et?'Save Changes':'+ Add Tree'}</button></div>
