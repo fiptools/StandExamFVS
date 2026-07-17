@@ -434,6 +434,7 @@ function preserveActiveStandDraft(){
   if(changed||standDraftPersistTimer) flushStandDraftPersistence()||saveState();
 }
 
+
 // ---------- Derived ----------
 function standList(){ return Object.values(state.stands).sort((a,b)=>a.stand_id.localeCompare(b.stand_id)); }
 function plotsForStand(id){ return Object.values(state.plots).filter(p=>p.stand_id===id).sort((a,b)=>a.plot_id-b.plot_id); }
@@ -1237,6 +1238,33 @@ function resetSpecies(){
 // ============================================================
 //  EXPORT
 // ============================================================
+
+function formatStandDateForExport(value){
+  if(!value) return 'no date';
+
+  const str=String(value).trim();
+
+  // Handles HTML date input values like YYYY-MM-DD without timezone shift
+  const m=str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m){
+    const d=new Date(Number(m[1]), Number(m[2])-1, Number(m[3]));
+    return d.toLocaleDateString(undefined, {
+      year:'numeric',
+      month:'short',
+      day:'numeric'
+    });
+  }
+
+  const d=new Date(str);
+  if(Number.isNaN(d.getTime())) return str;
+
+  return d.toLocaleDateString(undefined, {
+    year:'numeric',
+    month:'short',
+    day:'numeric'
+  });
+}
+
 function blankRow(headers){ const o={}; headers.forEach(h=>o[h]=""); return o; }
 function standBaseFields(s){
   const southern=s.variant==='SN';
@@ -1310,7 +1338,7 @@ async function deliverFiles(files, bundleName){
   if(!files.length) throw new Error("No files were created.");
   if(navigator.share && navigator.canShare){
     try{
-      const payload={title:"plOtter FVS export",files};
+      const payload={title:"StandExamFVS export",files};
       if(navigator.canShare(payload)){
         await navigator.share(payload);
         return "shared";
@@ -1432,7 +1460,7 @@ async function exportXLSX(){
     toast("⚠ Excel export failed");
   }
 }
-// ---- Import: merge a plOtter Excel/CSV export from another device ----
+// ---- Import: merge a StandExamFVS Excel/CSV export from another device ----
 function triggerImport(){ const el=document.getElementById('importFile'); if(el) el.click(); }
 function sheetRows(wb,name){ const rows=wb && wb.Sheets && wb.Sheets[name]; return Array.isArray(rows)?rows:[]; }
 async function importCSVArchive(file){
@@ -2385,9 +2413,9 @@ function render(){
   const activeStand=state.stands[state.activeStand];
 
   let html=`
-    <h1>🌲 plOtter: Stand Exam for FVS</h1>
+    <h1>🌲StandExamFVS🌲</h1>
     <div style="font-size:11.5px;color:var(--muted);margin:0 0 6px;"></div>
-    <div class="sub">Collect plot &amp; tree data and export exact FVS StandInit / PlotInit / TreeInit tables. Data saves locally on this device and remains available offline.</div>
+    <div class="sub">Collect stand, plot &amp; tree data and export exact FVS-ready tables. Data saves locally on this device and remains available offline.</div>
     <div class="stand-picker">
       <select id="standSelect" onchange="selectStand(this.value)">
         <option value="">— Select a stand —</option>
@@ -2707,7 +2735,7 @@ WL  western larch"></textarea>
         ${stands.some(s=>!isStandInfoReady(s.stand_id))?'<div class="note-box warning-note">Selected stands with unsaved Stand Info will require a decision before export. Never-saved stands must be saved first.</div>':''}
         ${stands.map(s=>`<label style="display:flex;gap:8px;align-items:center;font-weight:400;text-transform:none;font-size:14px;margin-bottom:6px;">
           <input type="checkbox" class="exp-check" value="${s.stand_id}" checked> ${s.stand_id}
-          <span class="muted">(${plotsForStand(s.stand_id).length} plots, variant ${s.variant||'—'})</span>
+          <span class="muted">(${plotsForStand(s.stand_id).length} plots, variant ${s.variant||'—'}, date ${formatStandDateForExport(s.date)})</span>
           <span class="stand-save-badge ${standInfoStatusClass(s.stand_id)}">${standInfoStatusLabel(s.stand_id)}</span>
         </label>`).join("")}
         <div class="divider"></div>
@@ -2724,7 +2752,7 @@ WL  western larch"></textarea>
       <div class="card">
         <div class="section-title">Import Data from Another Device</div>
         <div class="note-box">
-          Import a plOtter export collected on another device to <strong>merge</strong> its stands, plots &amp; trees into this dataset — useful when multiple crews split the work.
+          Import a StandExamFVS export collected on another device to <strong>merge</strong> its stands, plots &amp; trees into this dataset — useful when multiple crews split the work.
           <br><br>• <strong>Excel (.xlsx)</strong> — one four-sheet file; import works offline.<br>• <strong>CSV</strong> — select all three FVS CSV files together, or select the CSV ZIP created by a mobile-browser fallback. Both work offline.
           <br><br>Plots already present here (same <strong>Stand ID + Plot #</strong>) are skipped, along with their trees, to prevent duplicates. Imported stands use RealDBH entry mode.
         </div>
@@ -2738,7 +2766,7 @@ WL  western larch"></textarea>
           <li><a href="https://www.fs.usda.gov/managing-land/forest-management/fvs/documents/guides" target="_blank" rel="noopener noreferrer">FVS User and Variant Guides</a></li>
           <li><a href="https://www.fs.usda.gov/fvs/support/index.shtml" target="_blank" rel="noopener noreferrer">FVS Technical Support</a></li>
         </ul>
-        <div class="reference-note"><strong>Note:</strong> This data collection tool is developed by the BIA Division of Forestry — Branch of Forest Inventory and Planning (FIP) and is not associated with USDA or FVS staff. Provided reference links will assist with user issues involving the functionality of the Forest Vegetation Simulator, but not this data collection tool. For questions and concerns regarding plOtterFVS, please reach out directly to FIP at <a href="mailto:IA_Forestry@bia.gov">IA_Forestry@bia.gov</a>.</div>
+        <div class="reference-note"><strong>Note:</strong> This data collection tool is developed by the BIA Division of Forestry — Branch of Forest Inventory and Planning (FIP) and is not associated with USDA or FVS staff. Provided reference links will assist with user issues involving the functionality of the Forest Vegetation Simulator, but not this data collection tool. For questions and concerns regarding StandExamFVS, please reach out directly to FIP at <a href="mailto:IA_Forestry@bia.gov">IA_Forestry@bia.gov</a>.</div>
       </div>`;
   }
 

@@ -59,7 +59,7 @@
     const body = element('installDialogBody');
     if (body) {
       body.innerHTML = isIOS()
-        ? '<p>In Safari, tap the <strong>Share</strong> button, then choose <strong>Add to Home Screen</strong>. Open plOtter from the new home-screen icon once installation finishes.</p>'
+        ? '<p>In Safari, tap the <strong>Share</strong> button, then choose <strong>Add to Home Screen</strong>. Open StandExamFVS from the new home-screen icon once installation finishes.</p>'
         : '<p>Open the browser menu and choose <strong>Install app</strong> or <strong>Add to Home screen</strong>.</p>';
     }
     if (typeof dialog.showModal === 'function') dialog.showModal();

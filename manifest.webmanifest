@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "plOtter: Stand Exam for FVS",
-  "short_name": "plOtter FVS",
+  "name": "StandExamFVS",
+  "short_name": "StandExamFVS",
   "description": "Offline-capable forest stand, plot, and tree inventory collection with FVS CSV and Excel exports.",
   "start_url": "./index.html",
   "scope": "./",
