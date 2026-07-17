@@ -2514,7 +2514,7 @@ function render(){
       </div>
       <div class="divider"></div>
       <div class="row">
-        <div class="field small"><label>Elev (ft) <span class="muted" style="font-weight:400;text-transform:none;font-size:10.5px;">actual</span></label><input id="f_elev" type="number" min="1" placeholder="5200" value="${escapeAttr(s.elevation)}"></div>
+        <div class="field small"><label>Elev (ft) <span class="muted" style="font-weight:400;text-transform:none;font-size:10.5px;">actual</span></label><input id="f_elev" type="number" min="1" placeholder="ex 5200" value="${escapeAttr(s.elevation)}"></div>
         <div class="field small"><label>Slope (%)</label><input id="f_slope" type="number" min="0" value="${escapeAttr(s.slope)}"></div>
         <div class="field"><label>Aspect</label><select id="f_aspect">${aspectOptions(s.aspect)}</select></div>
         <div class="field small"><label>Latitude</label><input id="f_lat" inputmode="decimal" autocomplete="off" value="${escapeAttr(s.latitude)}" data-variant-coordinate="${escapeAttr(String(s.latitude||'').trim())}" onblur="queueStandCoordinateEvaluation()"></div>
